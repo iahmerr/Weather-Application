@@ -246,6 +246,7 @@ private extension WeatherViewController {
         lowerSeperatorLA.backgroundColor = .clear
         lowerSeperatorBeining.backgroundColor = .clear
         textField.endEditing(true)
+        textField.text = ""
         hourlyTitleText.text = textField.text
     }
 }
@@ -286,7 +287,11 @@ extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension WeatherViewController: PopulateData {
-    
+    func showLoader(_ show: Bool) {
+        DispatchQueue.main.async {[unowned self] in
+            self.isProgressHudShown(show)
+        }
+    }
     func refreshData() {
         DispatchQueue.main.async {[unowned self] in
             self.collectionView.reloadData()

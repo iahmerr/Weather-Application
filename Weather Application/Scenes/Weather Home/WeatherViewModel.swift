@@ -24,7 +24,7 @@ class WeatherViewModel {
     }
     
     func fetchData(coordinates: CLLocation) {
-        
+        self.delegate?.showLoader(true)
         self.respostry.getWeatherDetails(coordinates: coordinates) {[weak self] result in
             self?.parseResponse(result: result)
         }
@@ -40,6 +40,7 @@ class WeatherViewModel {
             self.daysData = model.daily
             self.delegate?.refreshData()
         }
+        self.delegate?.showLoader(false)
     }
     
     func getCellViewModel(index: Int)-> WeatherRequestResponse.Hourly? {
@@ -77,7 +78,6 @@ extension WeatherViewModel {
             self.fetchWeatherByCityName(searchedCityName: self.currentCity)
             default:
             print("lul")
-            
         }
     }
     
@@ -93,4 +93,5 @@ extension WeatherViewModel {
 }
 protocol PopulateData: AnyObject {
     func refreshData()
+    func showLoader(_ show: Bool)
 }
